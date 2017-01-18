@@ -8,7 +8,7 @@ describe('Argument parser', function() {
         var argument = 'input';
         var argumentValue = 'folder';
 
-        var result = argumentParser.getArgument(dummyArguments, argument)[0];
+        var result = argumentParser.getArgument(dummyArguments, argument);
         
         expect(result).toBe(argumentValue);
     });
