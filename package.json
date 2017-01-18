@@ -4,7 +4,8 @@
   "description": "Creates automatic documentation for control libraries done in ui5 Edit",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/jasmine-node test"
+    "test": "node_modules/.bin/jasmine-node test",
+    "test:watch": "npm test & onchange lib test -- npm run test"
   },
   "bin": {
     "ui5-jsdoc": "./bin/ui5-jsdoc.js"
@@ -26,6 +27,10 @@
   },
   "homepage": "https://github.com/labs-js/ui5-jsdoc-generator#readme",
   "devDependencies": {
-    "jasmine-node": "^1.14.5"
+    "jasmine-node": "^1.14.5",
+    "onchange": "^3.2.1"
+  },
+  "dependencies": {
+    "uglify-js": "^2.7.5"
   }
 }
