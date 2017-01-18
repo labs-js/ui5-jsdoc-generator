@@ -1,0 +1,31 @@
+{
+  "name": "ui5-jsdoc-generator",
+  "version": "1.0.0",
+  "description": "Creates automatic documentation for control libraries done in ui5 Edit",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/jasmine-node test"
+  },
+  "bin": {
+    "ui5-jsdoc": "./bin/ui5-jsdoc.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/labs-js/ui5-jsdoc-generator.git"
+  },
+  "keywords": [
+    "ui5",
+    "jsdoc",
+    "automatic",
+    "documentation"
+  ],
+  "author": "LABS JS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/labs-js/ui5-jsdoc-generator/issues"
+  },
+  "homepage": "https://github.com/labs-js/ui5-jsdoc-generator#readme",
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
+}
