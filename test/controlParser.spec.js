@@ -65,6 +65,21 @@ describe('controlParser', function() {
         })
     });
 
+	describe('_getProperty', function(){
+		it('return node',function(){
+			var node = {
+				type: "Property", 
+				key:{
+					name: "propertyName"	
+				}
+			}
+
+			var result = controlParser._getProperty(node,null,"propertyName","Property");
+
+			expect(result).toBe(node);
+		});	
+	});
+
     describe('_enter', function() {
 
         it('return node with object expression', function() {

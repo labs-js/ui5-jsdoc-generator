@@ -7,7 +7,9 @@ module.exports = (function() {
         },
 
         _getProperty = function(node, parent, namedKey, type) {
-            if (node.type === type && node.key.name === name) {
+			console.log(node);
+            if (node.type === type && node.key.name === namedKey) {
+				console.log('lalala', node);
                 return node;
             }
         },
@@ -27,6 +29,7 @@ module.exports = (function() {
     return {
         getNode: getNode,
         _enter: _enter,
+		_getProperty: _getProperty,
         getNamedKey: getNamedKey
     };
 }());
