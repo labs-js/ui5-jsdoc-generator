@@ -19,7 +19,8 @@ sap.ui.define(["sap/ui/core/Control"],
                     }
                 },
                 aggregations: {},
-                events: {}
+                events: {},
+                ui5JSDocDescription:"asdjfkasdflk"
             },
         });
 

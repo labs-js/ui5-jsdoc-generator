@@ -17,10 +17,15 @@ var fs = require('fs');
     //Get ast 
     var ast = esprima.parse(inputFile);
     //Parse js
-    var property = controlParser.getNamedKey(estraverse, ast, 'height');
-    console.log(property);
-    //get @ui5jsdoc:description this is a description string
-    //read metadata
-    //repace metadata in template
+    controlParser.getNode(estraverse, ast, 'metadata', 'ObjectExpression')
+        .then(function(result) {
+            return controlParser.getNode(estraverse,result,'properties','ObjectExpression');
+        })
+        .then(function(result){
+           console.log(result.properties); 
+        });
+        //get @ui5jsdoc:description this is a description string
+        //read metadata
+        //repace metadata in template
 
 })();

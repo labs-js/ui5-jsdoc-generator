@@ -1,35 +1,29 @@
 module.exports = (function() {
-    var self = this,
-        getNamedKey = function(estraverse, ast, namedKey, type) {
-            estraverse.traverse(ast, {
-                enter: this._getProperty
-            })
+    var
+
+        getNode = function(estraverse, ast, name, type) {
+            return new Promise(
+                function(resolve, reject) {
+                    estraverse.traverse(ast, {
+                        enter: function(node, parent) {
+                            _enter(node, parent, name, type, resolve);
+                        }
+                    })
+                });
         },
 
-        _getProperty = function(node, parent, namedKey, type) {
-			console.log(node);
-            if (node.type === type && node.key.name === namedKey) {
-				console.log('lalala', node);
-                return node;
-            }
-        },
-
-        getNode = function(estraverse, ast) {
-            estraverse.traverse(ast, {
-                enter: this._enter
-            })
-        }.bind(this),
-
-        _enter = function(node, parent) {
-            if (node.type === 'ObjectExpression') {
-                return node;
+        _enter = function(node, parent, name, type, resolve) {
+            if (node.type === type) {
+                if (node.properties.length > 0 &&
+                    type === 'ObjectExpression' &&
+                    node.properties[0].key.name === name) {
+                    resolve(node);
+                }
             }
         };
 
     return {
         getNode: getNode,
-        _enter: _enter,
-		_getProperty: _getProperty,
-        getNamedKey: getNamedKey
+        _enter: _enter
     };
 }());
