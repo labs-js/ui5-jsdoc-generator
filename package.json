@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/jasmine-node test",
-    "test:watch": "npm test & onchange lib test -- npm run test"
+    "test:watch": "npm test & onchange bin test -- npm run test"
   },
   "bin": {
     "ui5-jsdoc": "./bin/ui5-jsdoc.js"
@@ -31,6 +31,8 @@
     "onchange": "^3.2.1"
   },
   "dependencies": {
-    "uglify-js": "^2.7.5"
+    "esprima": "^3.1.3",
+    "estraverse": "^4.2.0",
+    "uglify-js": "^1.3.5"
   }
 }
