@@ -5,6 +5,8 @@ var controlParser = require('./controlParser');
 var esprima = require('esprima');
 var estraverse = require('estraverse');
 var fs = require('fs');
+var templater = require('./templater');
+var propertyAST = require('./propertyAST');
 
 (function() {
     var arguments = process.argv;
@@ -18,14 +20,23 @@ var fs = require('fs');
     var ast = esprima.parse(inputFile);
     //Parse js
     controlParser.getNode(estraverse, ast, 'metadata', 'ObjectExpression')
-        .then(function(result) {
-            return controlParser.getNode(estraverse,result,'properties','ObjectExpression');
+        .then(function(metadata) {
+            return controlParser.getNode(estraverse, metadata, 'properties', 'ObjectExpression');
         })
-        .then(function(result){
-           console.log(result.properties); 
+        .then(function(properties) {
+            //get template
+            fs.readFile('../templates/template.HTML', 'UTF8', function(err, data) {
+                if (err) throw err;
+                
+                var result = templater.replace(
+                    propertyAST, 
+                    data, 
+                    properties.value.properties, 
+                    "#__PROPERTIES__#"
+                );
+
+                console.log(result);
+            });
         });
-        //get @ui5jsdoc:description this is a description string
-        //read metadata
-        //repace metadata in template
 
 })();

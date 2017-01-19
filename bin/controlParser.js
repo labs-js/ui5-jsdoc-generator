@@ -17,7 +17,7 @@ module.exports = (function() {
                 if (node.properties.length > 0 &&
                     type === 'ObjectExpression' &&
                     node.properties[0].key.name === name) {
-                    resolve(node);
+                    resolve(node.properties[0]);
                 }
             }
         };
