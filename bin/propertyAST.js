@@ -1,13 +1,12 @@
 module.exports = (function() {
 
     var
-        getName = function(ast) {
-            return ast.key.name
+        getName = function(node) {
+            return node.key.name
         },
-        getValues = function(ast) {
-            return ast.value.properties
-        }
-
+        getValues = function(node) {
+            return node.value.properties
+        };
 
     return {
         getName: getName,

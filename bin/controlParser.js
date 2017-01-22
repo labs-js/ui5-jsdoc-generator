@@ -1,23 +1,29 @@
 module.exports = (function() {
     var
 
-        getNode = function(estraverse, ast, name, type) {
+        getNode = function(astProperty, estraverse, ast, name, type) {
             return new Promise(
                 function(resolve, reject) {
                     estraverse.traverse(ast, {
                         enter: function(node, parent) {
-                            _enter(node, parent, name, type, resolve);
+                            _enter(this, astProperty, node, parent, name, type, resolve);
+                        },
+                        leave: function(node, parent) {
+                            if (!parent) {
+                                resolve(null);
+                            }
                         }
-                    })
-                });
+                    });
+                })
         },
 
-        _enter = function(node, parent, name, type, resolve) {
+        _enter = function(estravese, astProperty, node, parent, name, type, resolve) {
             if (node.type === type) {
-                if (node.properties.length > 0 &&
-                    type === 'ObjectExpression' &&
-                    node.properties[0].key.name === name) {
-                    resolve(node.properties[0]);
+                if (type === 'Property') {
+                    if (astProperty.getName(node) === name && astProperty.getValues(node).length > 0) {
+                        resolve(node);
+                        straverse.break();
+                    }
                 }
             }
         };
