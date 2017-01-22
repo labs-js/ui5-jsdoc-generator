@@ -15,13 +15,21 @@ module.exports = (function() {
         getWildcard = function(key) {
             return wildcards[key];
         },
-        replace = function(astHandler, template, node, wildcard) {
+        list = function(astHandler, template, node, wildcard) {
             if (!node) {
                 return template;
             }
             var list = _createHTMLList(astHandler, node);
             return _replace(template, list, wildcard);
         },
+		word = function(astHandler, template, node, wildcard){
+			if(!node){
+				return template;
+			}	
+
+			return template = 
+				template. replace(new RegExp(wildcard,'g'), node.getValue());
+		}
 
 		clean = function(template){
 			for( key in wildcards){
@@ -44,11 +52,12 @@ module.exports = (function() {
         },
 
         _replace = function(template, list, wildcard) {
-            return template.replace(wildcard, list);
+            return template.replace(new RegExp(wildcard, 'g'), list);
         };
 
     return {
-        replace: replace,
+        list: list,
+		word: word, 
 		getWildcard: getWildcard,
 		clean: clean,
         _replace: _replace,
