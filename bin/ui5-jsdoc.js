@@ -52,6 +52,8 @@ var astQuery = require('ast-query');
             var result = templater.replace(propertyAST, template, data.properties, propWildcard);
             result = templater.replace(propertyAST, result, data.aggregations, aggreWildcard);
             result = templater.replace(propertyAST, result, data.events, eventsWildcard);
+			console.log(result);
+			result = templater.clean(result);
             console.log(result);
 
         })

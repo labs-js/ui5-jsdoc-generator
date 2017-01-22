@@ -16,13 +16,21 @@ module.exports = (function() {
             return wildcards[key];
         },
         replace = function(astHandler, template, node, wildcard) {
-			console.log(wildcard);
             if (!node) {
                 return template;
             }
             var list = _createHTMLList(astHandler, node);
             return _replace(template, list, wildcard);
         },
+
+		clean = function(template){
+			for( key in wildcards){
+				var wildcard = wildcards[key];
+				template = template.replace(new RegExp(wildcard, 'g'), 'no value');	
+			}
+
+			return template; 
+		}
 
         _createHTMLList = function(astHandler, node) {
             var li = "",
@@ -42,6 +50,7 @@ module.exports = (function() {
     return {
         replace: replace,
 		getWildcard: getWildcard,
+		clean: clean,
         _replace: _replace,
         _createHTMLList: _createHTMLList
     }
