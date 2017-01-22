@@ -1,18 +1,37 @@
 module.exports = (function() {
     var
-        replace = function(astHandler, template, properties, wildcard) {
-            var list = _createHTMLList(astHandler, properties);
+        wildcards = {
+            properties: "#__PROPERTIES__#",
+            aggregations: "#__AGGREGATIONS__#",
+            events: "#__EVENTS__#",
+            associations: "#__ASSOCIATIONS__#",
+            controlName: "#__CONTROL_NAME__#",
+            controlDescription: "#__CONTROL_DESCRIPTION__#",
+            baseClass: "#__BASE_CLASS__#",
+            author: "#__AUTHOR__#",
+            vesrion: "#__VERSION__#"
+
+        },
+        getWildcard = function(key) {
+            return wildcards[key];
+        },
+        replace = function(astHandler, template, node, wildcard) {
+			console.log(wildcard);
+            if (!node) {
+                return template;
+            }
+            var list = _createHTMLList(astHandler, node);
             return _replace(template, list, wildcard);
         },
 
-        _createHTMLList = function(astHandler, properties) {
-            var li = "";
+        _createHTMLList = function(astHandler, node) {
+            var li = "",
+                values = astHandler.getValues(node);
 
-            properties.forEach(function(property) {
+            values.forEach(function(property) {
                 li += '<li>' + astHandler.getName(property) + '</li>'
             })
 
-            console.log(li);
             return li;
         },
 
@@ -22,6 +41,7 @@ module.exports = (function() {
 
     return {
         replace: replace,
+		getWildcard: getWildcard,
         _replace: _replace,
         _createHTMLList: _createHTMLList
     }

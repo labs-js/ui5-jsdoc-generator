@@ -18,7 +18,11 @@ sap.ui.define(['sap/ui/core/Control'],
                 events: {
                     click: {}
                 },
-                ui5JSDocDescription: 'this is the description'
+                ui5JSDoc:{
+					description: "this is the control description", 
+					author: "author name", 
+					version:"1.0.0"
+				}
             }
         });
         ControlName.prototype.init = function() {};

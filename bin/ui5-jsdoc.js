@@ -29,34 +29,29 @@ var astQuery = require('ast-query');
     };
     controlParser.getNode(propertyAST, estraverse, ast, 'metadata', 'Property')
         .then(function(metadata) {
-            console.log('metadata', metadata);
             data.metadata = metadata;
             return controlParser.getNode(propertyAST, estraverse, data.metadata, 'properties', 'Property');
         })
         .then(function(properties) {
-            console.log('properties:', properties);
             data.properties = properties;
-            console.log('termina--------------------');
             return controlParser.getNode(propertyAST, estraverse, data.metadata, 'aggregations', 'Property');
         })
         .then(function(aggregations) {
-            console.log('aggregations:', aggregations);
             data.aggregations = aggregations;
             return controlParser.getNode(propertyAST, estraverse, data.metadata, 'events', 'Property');
         })
         .then(function(events) {
-            console.log('events:', events);
-            data.events = events;
-            return fsp('../templates/template.HTML', {
-                encoding: 'UTF8'
+            return fsp.readFile('../templates/template.HTML', {
+                encoding: 'utf8'
             });
         })
-        .then(function(data) {
-            console.log(data);
-            var result = templater.replace(propertyAST, data, properties.value.properties, "#__PROPERTIES__#");
-
-            result = templater.replace(propertyAST, result, properties.value.properties, "#__AGGREGATIONS__#");
-            result = templater.replace(propertyAST, result, properties.value.properties, "#__EVENTS__#");
+        .then(function(template) {
+            var propWildcard = templater.getWildcard("properties");
+			var aggreWildcard = templater.getWildcard("aggregations");
+			var eventsWildcard = templater.getWildcard("events");
+            var result = templater.replace(propertyAST, template, data.properties, propWildcard);
+            result = templater.replace(propertyAST, result, data.aggregations, aggreWildcard);
+            result = templater.replace(propertyAST, result, data.events, eventsWildcard);
             console.log(result);
 
         })
