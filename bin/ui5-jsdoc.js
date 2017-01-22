@@ -20,13 +20,14 @@ var astQuery = require('ast-query');
     var inputFile = fs.readFileSync(input, 'UTF8');
     //Get ast 
     var ast = esprima.parse(inputFile);
-    //Parse js
     var data = {
         metadata: null,
         properties: null,
         aggreagations: null,
         events: null
     };
+
+    //Parse js
     controlParser.getNode(propertyAST, estraverse, ast, 'metadata', 'Property')
         .then(function(metadata) {
             data.metadata = metadata;
@@ -49,18 +50,13 @@ var astQuery = require('ast-query');
             var propWildcard = templater.getWildcard("properties");
 			var aggreWildcard = templater.getWildcard("aggregations");
 			var eventsWildcard = templater.getWildcard("events");
-            var result = templater.replace(propertyAST, template, data.properties, propWildcard);
-            result = templater.replace(propertyAST, result, data.aggregations, aggreWildcard);
-            result = templater.replace(propertyAST, result, data.events, eventsWildcard);
-			console.log(result);
+            result =templater.list(propertyAST, template, data.properties, propWildcard);
+            result = templater.list(propertyAST, result, data.aggregations, aggreWildcard);
+            result = templater.list(propertyAST, result, data.events, eventsWildcard);
 			result = templater.clean(result);
-            console.log(result);
+			
+			console.log(result);
 
         })
 
-    /*//get template*/
-    //return fsp('../templates/template.HTML', {
-    //encoding: 'UTF8'
-    //});
-    /*var result = templater.replace(propertyAST, data, properties.value.properties, "#__PROPERTIES__#");*/
 })();
