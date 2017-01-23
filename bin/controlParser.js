@@ -18,9 +18,10 @@ module.exports = (function() {
         },
 
         _enter = function(estravese, astProperty, node, parent, name, type, resolve) {
+
             if (node.type === type) {
                 if (type === 'Property') {
-                    if (astProperty.getName(node) === name && astProperty.getValues(node).length > 0) {
+                    if (astProperty.getName(node) === name) {
                         resolve(node);
                         straverse.break();
                     }

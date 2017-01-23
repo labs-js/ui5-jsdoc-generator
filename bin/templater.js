@@ -9,7 +9,7 @@ module.exports = (function() {
             controlDescription: "#__CONTROL_DESCRIPTION__#",
             baseClass: "#__BASE_CLASS__#",
             author: "#__AUTHOR__#",
-            vesrion: "#__VERSION__#"
+            version: "#__VERSION__#"
 
         },
         getWildcard = function(key) {
@@ -22,25 +22,26 @@ module.exports = (function() {
             var list = _createHTMLList(astHandler, node);
             return _replace(template, list, wildcard);
         },
-		word = function(astHandler, template, node, wildcard){
-			if(!node){
+        word = function(astHandler, template, node, wildcard) {
+            
+			if (!node) {
 				return template;
-			}	
-
-			return template = 
-				template. replace(new RegExp(wildcard,'g'), node.getValue());
-		}
-
-		clean = function(template){
-			for( key in wildcards){
-				var wildcard = wildcards[key];
-				template = template.replace(new RegExp(wildcard, 'g'), 'no value');	
 			}
 
-			return template; 
-		}
+            return template =
+                template.replace(new RegExp(wildcard, 'g'), astHandler.getValue(node));
+        }
 
-        _createHTMLList = function(astHandler, node) {
+    clean = function(template) {
+        for (key in wildcards) {
+            var wildcard = wildcards[key];
+            template = template.replace(new RegExp(wildcard, 'g'), 'no value');
+        }
+
+        return template;
+    }
+
+    _createHTMLList = function(astHandler, node) {
             var li = "",
                 values = astHandler.getValues(node);
 
@@ -57,9 +58,9 @@ module.exports = (function() {
 
     return {
         list: list,
-		word: word, 
-		getWildcard: getWildcard,
-		clean: clean,
+        word: word,
+        getWildcard: getWildcard,
+        clean: clean,
         _replace: _replace,
         _createHTMLList: _createHTMLList
     }
