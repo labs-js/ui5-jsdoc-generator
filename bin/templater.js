@@ -23,10 +23,10 @@ module.exports = (function() {
             return _replace(template, list, wildcard);
         },
         word = function(astHandler, template, node, wildcard) {
-            
-			if (!node) {
-				return template;
-			}
+
+            if (!node) {
+                return template;
+            }
 
             return template =
                 template.replace(new RegExp(wildcard, 'g'), astHandler.getValue(node));
@@ -39,8 +39,24 @@ module.exports = (function() {
         }
 
         return template;
-    }
+    }, 
 
+	transformToComment = function(str){
+		var lines = str.split('\n');	
+		
+		var transformedLines = lines.map(function(line){
+			return '*' + ' ' +  line;
+		});
+		transformedLines = transformedLines.join('\n');
+		transformedLines = '/** \n' + transformedLines + '\n**/';
+
+		return transformedLines;
+	},
+
+	
+	insertJSDocComment = function(file,comments){
+		return file.replace(new RegExp('\/\/.*@ui5JSDoc','gm'), comments);	
+	};
     _createHTMLList = function(astHandler, node) {
             var li = "",
                 values = astHandler.getValues(node);
@@ -61,6 +77,8 @@ module.exports = (function() {
         word: word,
         getWildcard: getWildcard,
         clean: clean,
+		transformToComment: transformToComment,
+		insertJSDocComment: insertJSDocComment,
         _replace: _replace,
         _createHTMLList: _createHTMLList
     }

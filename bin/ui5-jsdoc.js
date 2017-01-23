@@ -21,7 +21,7 @@ var literalAST = require('./literalAST');
     //Reading input folder to get every js file
     var input = argumentParser.getArgument(arguments, "input");
     var fileName = extractFileName.extract(input);
-    //var output = argumentParser.getArgument(arguments, "output");
+    var output = argumentParser.getArgument(arguments, "output");
     //input file
     var inputFile = fs.readFileSync(input, 'UTF8');
     //Get ast 
@@ -106,7 +106,13 @@ var literalAST = require('./literalAST');
             result = templater.word(literalAST, result, data.controlName, controlNameWildcard);
             result = templater.clean(result);
 
-            console.log(result);
-        })
+            result = templater.transformToComment(result);
 
+            //Replace comment @ui5JSDoc with template
+            var newFile = templater.insertJSDocComment(inputFile, result);
+            return fsp.writeFile(output + input, newFile);
+        })
+		.then(function(){
+			console.log('file created');	
+		})
 })();

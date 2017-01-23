@@ -1,7 +1,8 @@
 sap.ui.define(['sap/ui/core/Control'],
     function(base) {
         'use strict';
-
+		
+		//  @ui5JSDoc
         var Control = base.extend('namespace.controlname', {
             metadata: {
                 properties: {
