@@ -28,7 +28,8 @@ var astQuery = require('ast-query');
         ui5JSDoc: null,
         description: null,
         author: null,
-        version: null
+        version: null,
+		baseClass: null
     };
 
     //Parse js
@@ -64,6 +65,10 @@ var astQuery = require('ast-query');
         })
         .then(function(version) {
             data.version = version;
+            return controlParser.getNode(propertyAST, estraverse, data.ui5JSDoc, 'baseClass', 'Property');
+        })
+        .then(function(baseClass) {
+            data.baseClass = baseClass;
             return fsp.readFile('../templates/template.HTML', {
                 encoding: 'utf8'
             });
@@ -75,15 +80,18 @@ var astQuery = require('ast-query');
             var descriptionWildcard = templater.getWildcard("controlDescription");
             var authorWildcard = templater.getWildcard("author");
             var versionWildcard = templater.getWildcard("version");
+            var baseWildcard = templater.getWildcard("baseClass");
             result = templater.list(propertyAST, template, data.properties, propWildcard);
             result = templater.list(propertyAST, result, data.aggregations, aggreWildcard);
             result = templater.list(propertyAST, result, data.events, eventsWildcard);
-			result = templater.word(propertyAST, result, data.description, descriptionWildcard);
-			result = templater.word(propertyAST, result, data.author, authorWildcard);
-			result = templater.word(propertyAST, result, data.version, versionWildcard);
-			result = templater.clean(result);
+            result = templater.word(propertyAST, result, data.description, descriptionWildcard);
+            result = templater.word(propertyAST, result, data.author, authorWildcard);
+            result = templater.word(propertyAST, result, data.version, versionWildcard);
+            result = templater.word(propertyAST, result, data.baseClass, baseWildcard);
+            //result = templater.clean(result);
+            //result = templater.clean(result);
 
-			console.log(result);
+            console.log(result);
 
 
         })

@@ -21,7 +21,8 @@ sap.ui.define(['sap/ui/core/Control'],
                 ui5JSDoc: {
                     description: "this is the control description",
                     author: "author name",
-                    version: "1.0.0"
+                    version: "1.0.0",
+					baseClass: "sap.ui.core.Control"
                 }
             }
         });
