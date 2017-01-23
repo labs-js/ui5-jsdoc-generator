@@ -2,7 +2,7 @@ sap.ui.define(['sap/ui/core/Control'],
     function(base) {
         'use strict';
 
-        var ControlName = base.extend('namespace.controlname', {
+        var Control = base.extend('namespace.controlname', {
             metadata: {
                 properties: {
                     property1: {
@@ -26,7 +26,7 @@ sap.ui.define(['sap/ui/core/Control'],
                 }
             }
         });
-        ControlName.prototype.init = function() {};
-        return ControlName;
+        Control.prototype.init = function() {};
+        return Control;
 
     }, true);

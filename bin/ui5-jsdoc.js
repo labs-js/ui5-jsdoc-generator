@@ -9,12 +9,18 @@ var templater = require('./templater');
 var propertyAST = require('./propertyAST');
 var fsp = require('fs-promise');
 var astQuery = require('ast-query');
+var extractFileName = require('./extractFileName');
+var variableDeclaratorAST = require('./variableDeclaratorAST');
+var callExpressionAST = require('./callExpressionAST');
+var memberExpressionAST = require('./memberExpressionAST');
+var literalAST = require('./literalAST');
 
 (function() {
     var arguments = process.argv;
 
     //Reading input folder to get every js file
     var input = argumentParser.getArgument(arguments, "input");
+    var fileName = extractFileName.extract(input);
     //var output = argumentParser.getArgument(arguments, "output");
     //input file
     var inputFile = fs.readFileSync(input, 'UTF8');
@@ -29,11 +35,19 @@ var astQuery = require('ast-query');
         description: null,
         author: null,
         version: null,
-		baseClass: null
+        baseClass: null,
+        controlName: null,
     };
 
     //Parse js
-    controlParser.getNode(propertyAST, estraverse, ast, 'metadata', 'Property')
+    controlParser.getNode(variableDeclaratorAST, estraverse, ast, fileName, 'VariableDeclarator')
+        .then(function(controlVariableDeclarator) {
+            return controlParser.getNode(memberExpressionAST, estraverse, controlVariableDeclarator, 'extend', 'MemberExpression')
+        })
+        .then(function(controlCallExpressionNode) {
+            data.controlName = callExpressionAST.getFirstArgument(controlCallExpressionNode);
+            return controlParser.getNode(propertyAST, estraverse, ast, 'metadata', 'Property')
+        })
         .then(function(metadata) {
             data.metadata = metadata;
             return controlParser.getNode(propertyAST, estraverse, data.metadata, 'properties', 'Property');
@@ -81,6 +95,7 @@ var astQuery = require('ast-query');
             var authorWildcard = templater.getWildcard("author");
             var versionWildcard = templater.getWildcard("version");
             var baseWildcard = templater.getWildcard("baseClass");
+            var controlNameWildcard = templater.getWildcard("controlName");
             result = templater.list(propertyAST, template, data.properties, propWildcard);
             result = templater.list(propertyAST, result, data.aggregations, aggreWildcard);
             result = templater.list(propertyAST, result, data.events, eventsWildcard);
@@ -88,12 +103,10 @@ var astQuery = require('ast-query');
             result = templater.word(propertyAST, result, data.author, authorWildcard);
             result = templater.word(propertyAST, result, data.version, versionWildcard);
             result = templater.word(propertyAST, result, data.baseClass, baseWildcard);
-            //result = templater.clean(result);
-            //result = templater.clean(result);
+            result = templater.word(literalAST, result, data.controlName, controlNameWildcard);
+            result = templater.clean(result);
 
             console.log(result);
-
-
         })
 
 })();

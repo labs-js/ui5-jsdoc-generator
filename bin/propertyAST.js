@@ -5,7 +5,6 @@ module.exports = (function() {
             return node.key.name
         },
 		getValue = function(node){
-			console.log(node);
 			return node.value.value
 		},
         getValues = function(node) {
@@ -18,4 +17,4 @@ module.exports = (function() {
         getValues: getValues,
     }
 
-}())
+}());
