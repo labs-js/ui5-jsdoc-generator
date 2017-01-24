@@ -1,5 +1,5 @@
 # ui5-jsdoc-generator 
-Creates automatic documentation for control libraries done in ui5 Edit
+Creates automatic documentation for control libraries done in ui5 
 
 ## Install
     npm install ui5-jsdoc-generator --save-dev
