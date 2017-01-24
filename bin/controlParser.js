@@ -4,6 +4,7 @@ module.exports = (function() {
         getNode = function(astElement, estraverse, ast, name, type) {
             return new Promise(
                 function(resolve, reject) {
+					if(!ast) resolve(null);
                     estraverse.traverse(ast, {
                         enter: function(node, parent) {
                             _enter(this, astElement, node, parent, name, type, resolve);

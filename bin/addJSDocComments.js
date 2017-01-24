@@ -13,6 +13,7 @@ var memberExpressionAST = require('./memberExpressionAST');
 var literalAST = require('./literalAST');
 var writefile = require('writefile');
 var fileHandler = require('./fileHandler');
+var mkdirp = require("mkdirp");
 
 module.exports = function(filePath, input, output) {
     var fileName = extractFileName.extract(filePath);
@@ -33,14 +34,15 @@ module.exports = function(filePath, input, output) {
         baseClass: null,
         controlName: null,
     };
-
     //Parse js
     controlParser.getNode(variableDeclaratorAST, estraverse, ast, fileName, 'VariableDeclarator')
         .then(function(controlVariableDeclarator) {
             return controlParser.getNode(memberExpressionAST, estraverse, controlVariableDeclarator, 'extend', 'MemberExpression')
         })
         .then(function(controlCallExpressionNode) {
-            data.controlName = callExpressionAST.getFirstArgument(controlCallExpressionNode);
+            if(controlCallExpressionNode){
+                data.controlName = callExpressionAST.getFirstArgument(controlCallExpressionNode)
+                };
             return controlParser.getNode(propertyAST, estraverse, ast, 'metadata', 'Property')
         })
         .then(function(metadata) {
@@ -73,6 +75,7 @@ module.exports = function(filePath, input, output) {
             return controlParser.getNode(propertyAST, estraverse, data.ui5JSDoc, 'version', 'Property');
         })
         .then(function(version) {
+            console.lo
             data.version = version;
             return controlParser.getNode(propertyAST, estraverse, data.ui5JSDoc, 'baseClass', 'Property');
         })
@@ -83,6 +86,7 @@ module.exports = function(filePath, input, output) {
             });
         })
         .then(function(template) {
+
             var propWildcard = templater.getWildcard("properties");
             var aggreWildcard = templater.getWildcard("aggregations");
             var eventsWildcard = templater.getWildcard("events");
@@ -103,11 +107,15 @@ module.exports = function(filePath, input, output) {
 
             result = templater.transformToComment(result);
 
+
             //Replace comment @ui5JSDoc with template
             var newFile = templater.insertJSDocComment(file, result);
-            return fileHandler.create(fs,newFile, filePath, input, output);
+            return fileHandler.create(fs, mkdirp, newFile, filePath, input, output);
         })
         .then(function(filePath) {
-            console.log('file created', filePath);
+            console.log('jsdoc data automatically created:', filePath);
+        })
+        .catch(function(err) {
+            console.log(err);
         })
 };

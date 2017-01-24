@@ -10,8 +10,6 @@
         input = argumentParser.getArgument(arguments, "input"),
         output = argumentParser.getArgument(arguments, "output");
 
-
-    console.log('output',output);
     getAllJSFiles({
         directory: input,
         filesCb: function() {},
