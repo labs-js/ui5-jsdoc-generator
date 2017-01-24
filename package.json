@@ -1,6 +1,6 @@
 {
   "name": "ui5-jsdoc-generator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Creates automatic documentation for control libraries done in ui5 Edit",
   "main": "index.js",
   "scripts": {
