@@ -9,6 +9,10 @@ sap.ui.define(['sap/ui/core/Control2'],
                     property1: {
                         type: "boolean",
                         defaultValue: true
+                    }, 
+                    property2: {
+                        type: "string", 
+                        defaultValue: "defaultValueString"
                     }
                 },
                 aggregations: {

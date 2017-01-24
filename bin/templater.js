@@ -33,38 +33,49 @@ module.exports = (function() {
         }
 
     clean = function(template) {
-        for (key in wildcards) {
-            var wildcard = wildcards[key];
-            template = template.replace(new RegExp(wildcard, 'g'), 'no value');
-        }
+            for (key in wildcards) {
+                var wildcard = wildcards[key];
+                template = template.replace(new RegExp(wildcard, 'g'), 'no value');
+            }
 
-        return template;
-    }, 
+            return template;
+        },
 
-	transformToComment = function(str){
-		var lines = str.split('\n');	
-		
-		var transformedLines = lines.map(function(line){
-			return '*' + ' ' +  line;
-		});
-		transformedLines = transformedLines.join('\n');
-		transformedLines = '/** \n' + transformedLines + '\n**/';
+        transformToComment = function(str) {
+            var lines = str.split('\n');
 
-		return transformedLines;
-	},
+            var transformedLines = lines.map(function(line) {
+                return '*' + ' ' + line;
+            });
+            transformedLines = transformedLines.join('\n');
+            transformedLines = '/** \n' + transformedLines + '\n**/';
 
-	
-	insertJSDocComment = function(file,comments){
-		return file.replace(new RegExp('\/\/.*@ui5JSDoc','gm'), comments);	
-	};
-    _createHTMLList = function(astHandler, node) {
+            return transformedLines;
+        },
+
+        insertJSDocComment = function(file, comments) {
+            return file.replace(new RegExp('\/\/.*@ui5JSDoc', 'gm'), comments);
+        },
+
+        _createHTMLList = function(astHandler, node) {
             var li = "",
                 values = astHandler.getValues(node);
 
             values.forEach(function(property) {
-                li += '<li>' + astHandler.getName(property) + '</li>'
-            })
 
+                li += '<li>' + astHandler.getName(property);
+
+                var subProperties = astHandler.getValues(property);
+
+                if (subProperties && subProperties.length > 0) {
+                    var sublist = subProperties.reduce(function(strList, subProp) {
+                        return strList += '<li>' + subProp.key.name + ':' + subProp.value.value + '</li>';
+                    }, "<ul>");
+                    li += sublist + '</ul>'
+                }
+
+                li += '</li>';
+            })
             return li;
         },
 
@@ -77,8 +88,8 @@ module.exports = (function() {
         word: word,
         getWildcard: getWildcard,
         clean: clean,
-		transformToComment: transformToComment,
-		insertJSDocComment: insertJSDocComment,
+        transformToComment: transformToComment,
+        insertJSDocComment: insertJSDocComment,
         _replace: _replace,
         _createHTMLList: _createHTMLList
     }
