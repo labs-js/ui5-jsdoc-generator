@@ -1,3 +1,8 @@
-./test
-./node_modules
-./mock
+test
+node_modules
+mock
+tmp
+tmpJSDoc
+www
+node_modules
+
