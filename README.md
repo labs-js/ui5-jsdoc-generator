@@ -127,7 +127,8 @@ Everything is fine until the alarm rings with the following sound 'where is the 
             * 
             * @public
             * @alias namespace.controlname 
-            * 
+            *
+            **/ 
         var Control = base.extend('namespace.controlname', {
             metadata: {
                 properties: {
