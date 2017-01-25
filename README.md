@@ -9,7 +9,7 @@ Creates automatic documentation for control libraries done in ui5
 
 ## Template 
 Create a file (templates/template.html) inside your web project with the following content:
-    
+```html 
         @class
         <b> #__CONTROL_NAME__# </b> <br>
         <i> #__CONTROL_DESCRIPTION__#</i>
@@ -41,11 +41,38 @@ Create a file (templates/template.html) inside your web project with the followi
         
         @public
         @alias #__CONTROL_NAME__# 
-            
+```
+
+# JSDoc integration 
+__ui5-jsdoc-generator__ can be easily integrated with jsdoc using an npm script:
+
+Run the following commands 
+
+* `npm init` (_note: we're creating package.json_)
+* `npm install jsdoc --save-dev`
+* `npm install ui5-jsdoc-generator --save-dev`
+
+Edit the script tag of the package.json with the following information 
+```json    
+    {
+      "name": "test",
+      "version": "1.0.0",
+      "description": "",
+      "main": "index.js",
+      "scripts": {
+        "ui5JSDoc":"node ./node_modules/ui5-jsdoc-generator/bin/ui5-jsdoc.js --input=inputControlFolder --output=tmpJSDoc",
+         "jsdoc":"./node_modules/.bin/jsdoc -r tmpJSDoc -d tmp ",
+          "doc": "npm run ui5JSDoc && npm run jsdoc"
+      },
+      "author": "",
+      "license": "ISC"
+    }
+```
+And finally, execute `npm run doc`
 
 # Why ?
 A common ui5 control looks like the following code - 
-    
+```javascript
     sap.ui.define(['sap/ui/core/Control'], function(base) {
         'use strict';
     
@@ -64,9 +91,9 @@ A common ui5 control looks like the following code -
         Control.prototype.init = function() {};
         return Control;
     }, true);
-
+```
 Everything is fine until the alarm rings with the following sound 'where is the documentation?'. No problem sir! We have a "quick" solution on mind. You go through every control in your library adding the jsdoc annotations manually. Now everything looks like:
-
+```javascript
     sap.ui.define(['sap/ui/core/Control'], function(base) {
         'use strict';
     		/** 
@@ -116,10 +143,11 @@ Everything is fine until the alarm rings with the following sound 'where is the 
         Control.prototype.init = function() {};
         return Control;
     }, true);
-
+```
 Why are we adding all that information manually when ui5 stores everything into the metadata ? Isn't it unnecessary ? What happends if we add a new property? We need to change the header comments once again!
 To avoid all those problems just change the control in the following way - 
 
+```javascript
     sap.ui.define(['sap/ui/core/Control'], function(base) {
         'use strict';
     
@@ -145,5 +173,5 @@ To avoid all those problems just change the control in the following way -
         Control.prototype.init = function() {};
         return Control;
     }, true);
-
-ui5-jsdoc-generator will parse the metadata structure and generate the necessary notations for jsdoc automatically! :D
+```
+ui5-jsdoc-generator will parse the metadata structure and generate the necessary notations for jsdoc automagically :sparkles:
