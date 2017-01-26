@@ -78,7 +78,7 @@ module.exports = (function() {
 							if(subProp.key.name === 'type' && primitiveTypes.indexOf(subProp.value.value)===-1){
 								return 	strList += '<li>' 
 									+ subProp.key.name 
-									+ ': { @link ' 
+									+ ': {@link ' 
 									+ subProp.value.value 
 									+ ' }'
 									+ '</li>';
