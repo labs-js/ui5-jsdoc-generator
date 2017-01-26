@@ -69,7 +69,7 @@ module.exports = (function() {
 
                 if (subProperties && subProperties.length > 0) {
                     var sublist = subProperties.reduce(function(strList, subProp) {
-                        return strList += '<li>' + subProp.key.name + ':' + subProp.value.value + '</li>';
+                        return strList += '<li>' + subProp.key.name + ': ' + subProp.value.value + '</li>';
                     }, "<ul>");
                     li += sublist + '</ul>'
                 }
