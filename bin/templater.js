@@ -12,6 +12,7 @@ module.exports = (function() {
             version: "#__VERSION__#"
 
         },
+        primitiveTypes = ["int", "string", "boolean", "float", "any"],
         getWildcard = function(key) {
             return wildcards[key];
         },
@@ -74,7 +75,15 @@ module.exports = (function() {
 
                 if (subProperties && subProperties.length > 0) {
                     var sublist = subProperties.reduce(function(strList, subProp) {
-                        return strList += '<li>' + subProp.key.name + ': ' + subProp.value.value + '</li>';
+							if(subProp.key.name === 'type' && primitiveTypes.indexOf(subProp.value.value)===-1){
+								return 	strList += '<li>' 
+									+ subProp.key.name 
+									+ ': { @link ' 
+									+ subProp.value.value 
+									+ ' }'
+									+ '</li>';
+							}
+                        	return strList += '<li>' + subProp.key.name + ': ' + subProp.value.value + '</li>';
                     }, "<ul>");
                     li += sublist + '</ul>'
                 }
