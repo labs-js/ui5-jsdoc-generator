@@ -19,7 +19,12 @@ module.exports = (function() {
             if (!node) {
                 return template;
             }
+
             var list = _createHTMLList(astHandler, node);
+
+            if (!list) { //when node doesnt have any properties inside
+                return template;
+            }
             return _replace(template, list, wildcard);
         },
         word = function(astHandler, template, node, wildcard) {
@@ -30,9 +35,9 @@ module.exports = (function() {
 
             return template =
                 template.replace(new RegExp(wildcard, 'g'), astHandler.getValue(node));
-        }
+        },
 
-    clean = function(template) {
+        clean = function(template) {
             for (key in wildcards) {
                 var wildcard = wildcards[key];
                 template = template.replace(new RegExp(wildcard, 'g'), 'no value');
