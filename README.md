@@ -2,10 +2,10 @@
 Creates automatic documentation for control libraries done in ui5 
 
 ## Install
-    npm install ui5-jsdoc-generator --save-dev
+`npm install ui5-jsdoc-generator --save-dev`
  
 ## Setup  
-    node ./node_modules/ui5-jsdoc-generator/bin/ui5-jsdoc.js --input=inputFolder --output=outputFolder
+`node ./node_modules/ui5-jsdoc-generator/bin/ui5-jsdoc-generator.js --input=inputFolder --output=outputFolder`
 
 ## Template 
 Create a file (templates/template.html) inside your web project with the following content:
@@ -60,7 +60,7 @@ Edit the script tag of the package.json with the following information
       "description": "",
       "main": "index.js",
       "scripts": {
-        "ui5JSDoc":"node ./node_modules/ui5-jsdoc-generator/bin/ui5-jsdoc.js --input=inputControlFolder --output=tmpJSDoc",
+        "ui5JSDoc":"node ./node_modules/ui5-jsdoc-generator/bin/ui5-jsdoc-generator.js --input=inputControlFolder --output=tmpJSDoc",
          "jsdoc":"./node_modules/.bin/jsdoc -r tmpJSDoc -d tmp ",
           "doc": "npm run ui5JSDoc && npm run jsdoc"
       },
