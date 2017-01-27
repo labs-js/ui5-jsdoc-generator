@@ -8,7 +8,7 @@
     "test:watch": "npm test & onchange bin test -- npm run test"
   },
   "bin": {
-    "ui5-jsdoc": "./bin/ui5-jsdoc.js"
+    "ui5-jsdoc-generator": "./bin/ui5-jsdoc-generator.js"
   },
   "repository": {
     "type": "git",
