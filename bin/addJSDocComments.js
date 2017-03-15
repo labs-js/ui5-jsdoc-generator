@@ -75,7 +75,6 @@ module.exports = function(filePath, input, output) {
             return controlParser.getNode(propertyAST, estraverse, data.ui5JSDoc, 'version', 'Property');
         })
         .then(function(version) {
-            console.lo
             data.version = version;
             return controlParser.getNode(propertyAST, estraverse, data.ui5JSDoc, 'baseClass', 'Property');
         })
