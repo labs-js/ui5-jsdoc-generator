@@ -22,7 +22,7 @@ module.exports = (function() {
             var createFile = function() {
                 return new Promise(function(resolve, reject) {
                     fs.writeFile(outputFile, file, 'utf8', function(err) {
-                        if (err) reject(epath.sep;
+                        if (err) reject(path.sep);
                         resolve(outputFile);
                     });
                 });
