@@ -8,17 +8,21 @@ module.exports = (function() {
              *
              */
 
-            // relateiveFolder should be folder/Control.js
+            var path = require('path'); 
+            input = path.normalize(input);
+            filePath = path.normalize(filePath);
+
+            // relativeFolder should be folder/Control.js
             var relativeFolder =
                 filePath.substring(filePath.indexOf(input), filePath.length);
-            var outputFile = output + '/' + relativeFolder;
-            var outputFolder = outputFile.substring(0, outputFile.lastIndexOf("/"));
+            var outputFile = output + path.sep + relativeFolder;
+            var outputFolder = outputFile.substring(0, outputFile.lastIndexOf(path.sep));
 
 
             var createFile = function() {
                 return new Promise(function(resolve, reject) {
                     fs.writeFile(outputFile, file, 'utf8', function(err) {
-                        if (err) reject(err);
+                        if (err) reject(epath.sep;
                         resolve(outputFile);
                     });
                 });
