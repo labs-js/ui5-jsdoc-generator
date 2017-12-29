@@ -34,7 +34,7 @@
     "ast-query": "^2.0.0",
     "esprima": "^3.1.3",
     "estraverse": "^4.2.0",
-    "fs-promise": "^1.0.0",
+    "fs-extra": "^5.0.0",
     "get-all-js-files": "^1.2.1",
     "mkdirp": "^0.5.1",
     "uglify-js": "^1.3.5",
